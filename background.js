@@ -43,3 +43,26 @@ chrome.runtime.onInstalled.addListener(() => {
       }
     }
   });
+
+// Listener for on installed
+// create_context_menu()
+// defaults: set_settings(authenticated=no, default_calendar=gcal, download_ics=no)
+
+// Listener for context menu item clicked:
+// create_calendar_event()
+
+// create_calendar_event()
+// if this takes longer than 30 seconds, time out and reset the user's cursor
+// start spinning the user's cursor
+// send a create/ POST request to the backend
+
+// if the response says we're not authenticated, change our local setting to "not authenticated"; exit this code; 
+// chrome.action.setBadgeText({ text: 'Off' });
+// chrome.action.setBadgeBackgroundColor({ color: "grey" });
+
+
+// capture the event uuid that the POST returns
+// poll the backend every 1 second for status on the event
+// once the event is 'DONE', hit the download/ endpoint
+// open the calendar url in a new tab (depending on user settings)
+// download (depending on user settings) the .ics file
