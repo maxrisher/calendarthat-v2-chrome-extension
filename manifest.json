@@ -1,0 +1,16 @@
+{
+    "name": "CalendarThat Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "description": "Right-click to send highlighted text to CalendarThat.",
+    "permissions": [
+      "contextMenus",
+      "storage"
+    ],
+    "host_permissions": [
+      "https://calendarthat.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    }
+  }
