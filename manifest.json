@@ -8,7 +8,8 @@
       "storage"
     ],
     "host_permissions": [
-      "https://calendarthat.com/*"
+      "https://calendarthat.com/*",
+      "https://calendarthatv2-calendarthatv2-pr-18.up.railway.app/*"
     ],
     "background": {
       "service_worker": "background.js"
