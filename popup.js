@@ -2,7 +2,7 @@
 
 // When the user changes one of the toggle buttons on the settings, store this change in chrome local storage
 
-import { CALENDARTHAT_BASE_URL } from "./helpers.js";
+import { CALENDARTHAT_BASE_URL, set_auth } from "./helpers.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Load current settings
@@ -38,15 +38,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (loginButton) {
       loginButton.addEventListener('click', async() => {
         
-        await set_auth();
-        const settings = await chrome.storage.local.get([
-          'authenticated',
-          'defaultCalendar',
-          'downloadIcs'
-        ]);
+        authenticated = await set_auth();
 
-        if (settings.authenticated) {
-          updateAuthenticationUI(settings.authenticated);
+        if (authenticated) {
+          updateAuthenticationUI(authenticated);
         }
         else{
           chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
