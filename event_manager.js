@@ -53,7 +53,8 @@ export class EventManager{
         await chrome.storage.local.set({ authenticated: false });
         await set_icon_logged_in(false);
         chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
-        return
+        
+        throw new Error('User not authenticated');
       }
   
       const data = await response.json();
