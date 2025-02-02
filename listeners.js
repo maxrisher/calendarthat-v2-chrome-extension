@@ -5,8 +5,8 @@
 // Listener for context menu item clicked:
 // create_calendar_event()
 
-import { CALENDARTHAT_BASE_URL } from "./helpers";
-import { EventManager } from "./event_manager";
+import { CALENDARTHAT_BASE_URL } from "./helpers.js";
+import { EventManager } from "./event_manager.js";
 
 chrome.runtime.onInstalled.addListener(async() => {
     chrome.contextMenus.create({
@@ -34,7 +34,7 @@ chrome.contextMenus.onClicked.addListener(async(info, tab) => {
             'downloadIcs'])
 
         if (!settings.authenticated) {
-            chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}/login` });
+            chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
             return;
         }
 

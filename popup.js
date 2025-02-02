@@ -2,7 +2,7 @@
 
 // When the user changes one of the toggle buttons on the settings, store this change in chrome local storage
 
-import { CALENDARTHAT_BASE_URL } from "./helpers";
+import { CALENDARTHAT_BASE_URL } from "./helpers.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Load current settings

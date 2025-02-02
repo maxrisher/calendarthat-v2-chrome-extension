@@ -14,7 +14,7 @@
 // open the calendar url in a new tab (depending on user settings)
 // download (depending on user settings) the .ics file
 
-import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers";
+import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers.js";
 
 export class EventManager{
     constructor(defaultCalendar, downloadIcs) {
