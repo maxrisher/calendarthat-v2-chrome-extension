@@ -17,23 +17,24 @@
 import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers.js";
 
 export class EventManager{
-    constructor(defaultCalendar, downloadIcs) {
+    constructor(defaultCalendar, downloadIcs, tab) {
       this.defaultCalendar = defaultCalendar
       this.downloadIcs = downloadIcs
       this.event_text = null;
       this.uuid = null;
+      this.tab = tab;
     }
   
     async create_or_logout(event_text){
       try{
-        await set_cursor_style('wait')
+        await set_cursor_style(this.tab, 'wait')
         this.event_text = event_text
         await this._create_event_and_uuid();
         await this._poll_backend();
         await this._open_calendar_event();
         }
         finally {
-            await set_cursor_style('default')
+            await set_cursor_style(this.tab,'default')
         }
     }
   
@@ -53,7 +54,7 @@ export class EventManager{
         await chrome.storage.local.set({ authenticated: false });
         await set_icon_logged_in(false);
         chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
-        
+
         throw new Error('User not authenticated');
       }
   

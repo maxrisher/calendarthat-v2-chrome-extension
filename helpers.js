@@ -21,15 +21,17 @@ export function set_icon_logged_in(is_logged_in_bool) {
     })
 }
 
-export async function set_cursor_style(style){
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+export async function set_cursor_style(browser_tab, style) {
+    // Remove any existing cursor styles first
+    await chrome.scripting.removeCSS({
+        target: { tabId: browser_tab.id },
+        css: 'body { cursor: wait !important; } body { cursor: default !important; }'
+    }).catch(() => {}); // Ignore if nothing to remove
 
-    chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        function: () => {
-            document.body.style.cursor = style;
-        }
-        });
+    await chrome.scripting.insertCSS({
+        target: { tabId: browser_tab.id },
+        css: `body { cursor: ${style} !important; }`
+    });
 }
 
 export function sanitize_filename(text) {

@@ -35,7 +35,7 @@ chrome.contextMenus.onClicked.addListener(async(info, tab) => {
             'defaultCalendar', 
             'downloadIcs'])
 
-        const event_manager = new EventManager(settings.defaultCalendar, settings.downloadIcs)
+        const event_manager = new EventManager(settings.defaultCalendar, settings.downloadIcs, tab)
         await event_manager.create_or_logout(info.selectionText);
     }
 })
