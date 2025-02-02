@@ -23,7 +23,7 @@ chrome.runtime.onInstalled.addListener(async() => {
 
     await chrome.storage.local.set(defaults);
 
-    await set_auth();
+    await set_auth(); // Check if the user already happens to be authenticated
 })
 
 chrome.contextMenus.onClicked.addListener(async(info, tab) => {
@@ -34,11 +34,6 @@ chrome.contextMenus.onClicked.addListener(async(info, tab) => {
             'authenticated', 
             'defaultCalendar', 
             'downloadIcs'])
-
-        // if (!settings.authenticated) {
-        //     chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
-        //     return;
-        // }
 
         const event_manager = new EventManager(settings.defaultCalendar, settings.downloadIcs)
         await event_manager.create_or_logout(info.selectionText);
