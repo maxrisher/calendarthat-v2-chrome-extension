@@ -41,3 +41,16 @@ export async function sleep(ms) {
         setTimeout(resolve, ms);
     });
 }
+
+export async function set_auth() {
+    const response = await fetch(`${CALENDARTHAT_BASE_URL}/check_auth`, {
+        method: 'GET',
+        credentials: 'include',
+    });
+
+    const is_authenticated = response.status === 200;
+    await chrome.storage.local.set({ authenticated: is_authenticated });
+    await set_icon_logged_in(is_authenticated);
+
+    return is_authenticated;
+}

@@ -57,7 +57,7 @@ export class EventManager{
       }
   
       const data = await response.json();
-      this.uuid = data.eventId;
+      this.uuid = data.event_uuid;
     }
 
     async _poll_backend(){
@@ -65,19 +65,13 @@ export class EventManager{
         let attempts = 0;
 
         while (attempts < max_attempts) {
-            const response = await fetch(`${CALENDARTHAT_BASE_URL}/status/`, {
-                method: "POST",
-                // 'include' ensures the browser sends cookies (session) along with the request
+            const response = await fetch(`${CALENDARTHAT_BASE_URL}/event_status/?event_uuid=${this.uuid}`, {
+                method: "GET",
                 credentials: "include",
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({ uuid: this.uuid }) 
-                // Check if this is the right way to talk to the API ^
                 });
             const data = await response.json();
 
-            if (data.status === 'DONE') {
+            if (data.build_status === 'DONE') {
                 return;
             }
 
@@ -88,15 +82,10 @@ export class EventManager{
     }
 
     async _open_calendar_event() {
-        const response = await fetch(`${CALENDARTHAT_BASE_URL}/download/`, {
+        const response = await fetch(`${CALENDARTHAT_BASE_URL}/download/?event_uuid=${this.uuid}`, {
             method: "POST",
             // 'include' ensures the browser sends cookies (session) along with the request
             credentials: "include",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: new URLSearchParams({ uuid: this.uuid }) 
-            // Check if this is the right way to talk to the API ^
             });
         
         const data = await response.json();

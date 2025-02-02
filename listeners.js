@@ -5,7 +5,7 @@
 // Listener for context menu item clicked:
 // create_calendar_event()
 
-import { CALENDARTHAT_BASE_URL } from "./helpers.js";
+import { CALENDARTHAT_BASE_URL, set_auth } from "./helpers.js";
 import { EventManager } from "./event_manager.js";
 
 chrome.runtime.onInstalled.addListener(async() => {
@@ -22,6 +22,8 @@ chrome.runtime.onInstalled.addListener(async() => {
     };
 
     await chrome.storage.local.set(defaults);
+
+    await set_auth();
 })
 
 chrome.contextMenus.onClicked.addListener(async(info, tab) => {
@@ -33,10 +35,10 @@ chrome.contextMenus.onClicked.addListener(async(info, tab) => {
             'defaultCalendar', 
             'downloadIcs'])
 
-        if (!settings.authenticated) {
-            chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
-            return;
-        }
+        // if (!settings.authenticated) {
+        //     chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
+        //     return;
+        // }
 
         const event_manager = new EventManager(settings.defaultCalendar, settings.downloadIcs)
         await event_manager.create_or_logout(info.selectionText);
