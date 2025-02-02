@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     calendarToggle.checked = settings.defaultCalendar === 'outlook';
     calendarToggle.addEventListener('change', async (e) => {
       await chrome.storage.local.set({
-        defaultCalendar: e.target.checked ? 'outlook' : 'gcal'
+        defaultCalendar: e.target.checked ? 'outlook_link' : 'gcal_link'
       });
     });
   

@@ -15,9 +15,9 @@ chrome.runtime.onInstalled.addListener(async() => {
         contexts: ['selection']
     });
     
-    defaults = {
+    const defaults = {
         authenticated: false,
-        defaultCalendar: 'gcal',
+        defaultCalendar: 'gcal_link',
         downloadIcs: false
     };
 
@@ -26,7 +26,7 @@ chrome.runtime.onInstalled.addListener(async() => {
 
 chrome.contextMenus.onClicked.addListener(async(info, tab) => {
     if (info.menuItemId === 'createCalendarEvent') {
-        if (!selectedText.trim()) return;
+        if (!info.selectionText.trim()) return;
 
         const settings = await chrome.storage.local.get([
             'authenticated', 

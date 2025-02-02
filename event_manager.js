@@ -14,7 +14,7 @@
 // open the calendar url in a new tab (depending on user settings)
 // download (depending on user settings) the .ics file
 
-import { CALENDARTHAT_BASE_URL } from "./helpers";
+import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers";
 
 export class EventManager{
     constructor(defaultCalendar, downloadIcs) {
@@ -26,14 +26,14 @@ export class EventManager{
   
     async create_or_logout(event_text){
       try{
-        set_cursor_style('wait')
+        await set_cursor_style('wait')
         this.event_text = event_text
-        await _create_event_and_uuid();
-        await _poll_backend();
-        await _open_calendar_event();
+        await this._create_event_and_uuid();
+        await this._poll_backend();
+        await this._open_calendar_event();
         }
         finally {
-            set_cursor_style('default')
+            await set_cursor_style('default')
         }
     }
   
@@ -51,7 +51,7 @@ export class EventManager{
   
       if (response.status === 401) { // double check response status here
         await chrome.storage.local.set({ authenticated: false });
-        await updateBadge();
+        await set_icon_logged_in(false);
         chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}/login` });
         return
       }
@@ -100,15 +100,23 @@ export class EventManager{
             });
         
         const data = await response.json();
+        const new_tab_url = data[this.defaultCalendar]
 
-        new_tab_url = data.get(this.defaultCalendar)
-        blob = data.ics_file
+        if (this.downloadIcs) {
+          const blob = new Blob([data.ics_data], { type: 'text/calendar' });
+          const ics_url = window.URL.createObjectURL(blob);
 
-        ics_url = window.URL.createObjectURL(blob);
-        chrome.downloads.download({
+          const event_name = sanitize_filename(this.event_text.slice(0,15))
+
+          await chrome.downloads.download({
             url: ics_url,
-            filename: `new-event-${this.event_text[:10]}.ics`,
+            filename: `new-event-${event_name}.ics`,
             saveAs: false
-        });
+          })
+        }
+
+        if (new_tab_url) {
+          await chrome.tabs.create({ url: new_tab_url })
+        }
     }
 }

@@ -15,23 +15,29 @@ const icons = {
     }
 };
 
-async function set_icon_logged_in(is_logged_in) {
-    const settings = await chrome.storage.local.get([
-        'authenticated', 
-        'defaultCalendar', 
-        'downloadIcs'])
-
+export function set_icon_logged_in(is_logged_in_bool) {
     chrome.action.setIcon({
-        path: icons[is_logged_in ? 'logged_in' : 'logged_out']
+        path: icons[is_logged_in_bool ? 'logged_in' : 'logged_out']
     })
 }
 
-function set_cursor_style(style){
+export async function set_cursor_style(style){
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+
     chrome.scripting.executeScript({
-        target: { tabId: tabId },
+        target: { tabId: tabs[0].id },
         function: () => {
             document.body.style.cursor = style;
         }
         });
 }
 
+export function sanitize_filename(text) {
+    return text.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+};
+
+export async function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}

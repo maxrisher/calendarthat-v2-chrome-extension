@@ -5,14 +5,18 @@
     "description": "Right-click to send highlighted text to CalendarThat.",
     "permissions": [
       "contextMenus",
-      "storage"
+      "storage",
+      "scripting",
+      "downloads",
+      "activeTab"
     ],
     "host_permissions": [
       "https://calendarthat.com/*",
       "https://calendarthatv2-calendarthatv2-pr-18.up.railway.app/*"
     ],
     "background": {
-      "service_worker": "listeners.js"
+      "service_worker": "listeners.js",
+      "type": "module"
     },
     "icons": {
       "16": "icons/logged_out_16.png",
