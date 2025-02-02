@@ -38,7 +38,7 @@ export class EventManager{
     }
   
     async _create_event_and_uuid(){
-      const response = await fetch(`${CALENDARTHAT_BASE_URL}/create/`, {
+      const response = await fetch(`${CALENDARTHAT_BASE_URL}/extension_create/`, {
             method: "POST",
             // 'include' ensures the browser sends cookies (session) along with the request
             credentials: "include",
