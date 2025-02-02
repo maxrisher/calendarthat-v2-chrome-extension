@@ -36,8 +36,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Setup login button
     const loginButton = document.getElementById('login-button');
     if (loginButton) {
-      loginButton.addEventListener('click', () => {
-        chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
+      loginButton.addEventListener('click', async() => {
+        
+        await set_auth();
+        const settings = await chrome.storage.local.get([
+          'authenticated',
+          'defaultCalendar',
+          'downloadIcs'
+        ]);
+
+        if (settings.authenticated) {
+          updateAuthenticationUI(settings.authenticated);
+        }
+        else{
+          chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
+
+        }
       });
     }
   });
