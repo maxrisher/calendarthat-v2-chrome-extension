@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loginButton = document.getElementById('login-button');
     if (loginButton) {
       loginButton.addEventListener('click', () => {
-        chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}/login` });
+        chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
       });
     }
   });
