@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (loginButton) {
       loginButton.addEventListener('click', async() => {
         
-        authenticated = await set_auth();
+        const authenticated = await set_auth();
 
         if (authenticated) {
           updateAuthenticationUI(authenticated);
