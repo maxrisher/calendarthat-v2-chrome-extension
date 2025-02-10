@@ -93,7 +93,7 @@ export class EventManager{
         
         const data = await response.json();
 
-        if (this.downloadIcs) {
+        if (this.download_ics) {
           const base_64_data = btoa(data.ics_data);
           const data_url = `data:text/calendar;base64,${base_64_data}`;
           const event_name = sanitize_filename(this.event_text.slice(0,15))
