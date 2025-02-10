@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       await chrome.storage.local.set({
         defaultCalendar: e.target.checked ? 'outlook_link' : 'gcal_link'
       });
+      console.log("Calendar event link type is outlook?"+e.target.checked)
     });
   
     // Setup ICS download toggle
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       await chrome.storage.local.set({
         downloadIcs: e.target.checked
       });
+      console.log("Calendar event link type is outlook?"+e.target.checked)
     });
   
     // Setup login button

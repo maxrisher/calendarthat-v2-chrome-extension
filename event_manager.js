@@ -94,13 +94,12 @@ export class EventManager{
         const new_tab_url = data[this.defaultCalendar]
 
         if (this.downloadIcs) {
-          const blob = new Blob([data.ics_data], { type: 'text/calendar' });
-          const ics_url = window.URL.createObjectURL(blob);
-
+          const base_64_data = btoa(data.ics_data);
+          const data_url = `data:text/calendar;base64,${base_64_data}`;
           const event_name = sanitize_filename(this.event_text.slice(0,15))
 
           await chrome.downloads.download({
-            url: ics_url,
+            url: data_url,
             filename: `new-event-${event_name}.ics`,
             saveAs: false
           })
