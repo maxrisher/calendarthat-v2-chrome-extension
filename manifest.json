@@ -24,7 +24,7 @@
       }
     },
     "background": {
-      "service_worker": "listeners.js",
+      "service_worker": "background_listeners.js",
       "type": "module"
     },
     "icons": {
