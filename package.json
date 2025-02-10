@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.5",
+    "tailwindcss": "^4.0.5"
+  },
+  "name": "calendarthat-v2-chrome-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background_listeners.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

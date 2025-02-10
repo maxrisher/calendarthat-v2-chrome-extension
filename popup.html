@@ -6,123 +6,39 @@
 <html>
 <head>
   <title>CalendarThat Extension</title>
-  <style>
-    body {
-      width: 300px;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    }
-
-    .logo-container {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .logo {
-      width: 200px;
-      height: auto;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .toggle-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 12px 0;
-    }
-
-    .button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    .button:hover {
-      background-color: #45a049;
-    }
-
-    .toggle {
-      position: relative;
-      display: inline-block;
-      width: 52px;
-      height: 26px;
-    }
-
-    .toggle input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 26px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: #4CAF50;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-  </style>
+  <link href="./src/output.css" rel="stylesheet">
 </head>
-<body>
-  <div class="logo-container">
+<body class="w-50 p-4 font-sans">
+  <div class="flex items-end mb-4 gap-2">
     <a href="https://calendarthat.com" target="_blank">
-      <img src="icons/logged_in_128.png" alt="CalendarThat" class="logo">
+      <img src="icons/logged_in_128.png" alt="CalendarThat" class="w-10 h-auto">
     </a>
+    <h1 class="text-xl font-bold">CalendarThat</h1>
   </div>
 
   <div id="auth-section">
-    <p>Please log in to use CalendarThat</p>
-    <button id="login-button" class="button">Log In</button>
+    <p class="mb-4">Please log in to use CalendarThat</p>
+    <button class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors duration-200">Log In</button>
   </div>
 
-  <div id="settings-section" class="hidden">
-    <div class="toggle-container">
-      <span>Calendar Type</span>
-      <label class="toggle">
-        <input type="checkbox" id="calendar-toggle">
-        <span class="slider"></span>
-      </label>
-      <span>Outlook</span>
-    </div>
+  <div class="space-y-2 hidden" id="settings-section">
+    <label class="flex justify-between cursor-pointer">
+      <input type="checkbox" class="sr-only peer" id="gcal-toggle">
+      <span class="text-sm">Google Calendar</span>
+      <div class="w-10 h-6 rounded-full bg-gray-200 peer-checked:bg-green-600 relative after:absolute after:top-1 after:left-1 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-4"></div>
+    </label>
+    
+    <label class="flex justify-between cursor-pointer">
+      <input type="checkbox" class="sr-only peer" id="outlook-toggle">
+      <span class="text-sm">Outlook</span>
+      <div class="w-10 h-6 rounded-full bg-gray-200 peer-checked:bg-green-600 relative after:absolute after:top-1 after:left-1 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-4"></div>
+    </label>
 
-    <div class="toggle-container">
-      <span>Download ICS</span>
-      <label class="toggle">
-        <input type="checkbox" id="ics-toggle">
-        <span class="slider"></span>
-      </label>
-    </div>
+    <label class="flex justify-between cursor-pointer">
+      <input type="checkbox" class="sr-only peer" id="ics-toggle">
+      <span class="text-sm">Download .ics</span>
+      <div class="w-10 h-6 rounded-full bg-gray-200 peer-checked:bg-green-600 relative after:absolute after:top-1 after:left-1 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-4"></div>
+    </label>
   </div>
 
   <script src="popup.js" type="module"></script>
