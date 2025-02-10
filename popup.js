@@ -68,10 +68,10 @@ function updateAuthenticationUI(authenticated) {
   const settingsSection = document.getElementById('settings-section');
 
   if (authenticated) {
-    authSection.classList.add('hidden');
-    settingsSection.classList.remove('hidden');
+    authSection.classList.add('hidden'); //hide auth button
+    settingsSection.classList.remove('hidden'); //show settings
   } else {
-    authSection.classList.remove('hidden');
-    settingsSection.classList.add('hidden');
+    authSection.classList.remove('hidden'); //show auth button
+    settingsSection.classList.add('hidden'); //hide settings
   }
 }
