@@ -8,31 +8,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load current settings
     const settings = await chrome.storage.local.get([
       'authenticated',
-      'defaultCalendar',
-      'downloadIcs'
+      'outlook_link',
+      'gcal_link',
+      'download_ics'
     ]);
   
     // Update UI based on authentication status
     updateAuthenticationUI(settings.authenticated);
   
     // Setup calendar type toggle
-    const calendarToggle = document.getElementById('calendar-toggle');
-    calendarToggle.checked = settings.defaultCalendar === 'outlook';
-    calendarToggle.addEventListener('change', async (e) => {
+    const gcal_toggle = document.getElementById('gcal-toggle');
+    gcal_toggle.checked = settings.gcal_link;
+    gcal_toggle.addEventListener('change', async (event) => {
       await chrome.storage.local.set({
-        defaultCalendar: e.target.checked ? 'outlook_link' : 'gcal_link'
+        gcal_link: event.target.checked
       });
-      console.log("Calendar event link type is outlook?"+e.target.checked)
+      console.log("Calendar event link type is gcal?"+event.target.checked)
     });
   
-    // Setup ICS download toggle
-    const icsToggle = document.getElementById('ics-toggle');
-    icsToggle.checked = settings.downloadIcs;
-    icsToggle.addEventListener('change', async (e) => {
+    const outlook_toggle = document.getElementById('outlook-toggle');
+    outlook_toggle.checked = settings.outlook_link;
+    outlook_toggle.addEventListener('change', async (event) => {
       await chrome.storage.local.set({
-        downloadIcs: e.target.checked
+        outlook_link: event.target.checked
       });
-      console.log("Calendar event link type is outlook?"+e.target.checked)
+      console.log("Calendar event link type is outlook?"+event.target.checked)
+    });
+
+    const ics_toggle = document.getElementById('ics-toggle');
+    ics_toggle.checked = settings.download_ics;
+    ics_toggle.addEventListener('change', async (event) => {
+      await chrome.storage.local.set({
+        download_ics: event.target.checked
+      });
+      console.log("Download ics?"+event.target.checked)
     });
   
     // Setup login button
@@ -53,16 +62,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
   
-  // Update UI based on authentication status
-  function updateAuthenticationUI(authenticated) {
-    const authSection = document.getElementById('auth-section');
-    const settingsSection = document.getElementById('settings-section');
-  
-    if (authenticated) {
-      authSection.classList.add('hidden');
-      settingsSection.classList.remove('hidden');
-    } else {
-      authSection.classList.remove('hidden');
-      settingsSection.classList.add('hidden');
-    }
+// Update UI based on authentication status
+function updateAuthenticationUI(authenticated) {
+  const authSection = document.getElementById('auth-section');
+  const settingsSection = document.getElementById('settings-section');
+
+  if (authenticated) {
+    authSection.classList.add('hidden');
+    settingsSection.classList.remove('hidden');
+  } else {
+    authSection.classList.remove('hidden');
+    settingsSection.classList.add('hidden');
   }
+}

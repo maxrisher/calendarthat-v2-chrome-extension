@@ -17,8 +17,9 @@ chrome.runtime.onInstalled.addListener(async() => {
     
     const defaults = {
         authenticated: false,
-        defaultCalendar: 'gcal_link',
-        downloadIcs: false
+        outlook_link: false,
+        gcal_link: true,
+        download_ics: false
     };
 
     await chrome.storage.local.set(defaults);
@@ -31,11 +32,12 @@ chrome.contextMenus.onClicked.addListener(async(info, tab) => {
         if (!info.selectionText.trim()) return;
 
         const settings = await chrome.storage.local.get([
-            'authenticated', 
-            'defaultCalendar', 
-            'downloadIcs'])
+            'authenticated',
+            'outlook_link',
+            'gcal_link',
+            'download_ics'])
 
-        const event_manager = new EventManager(settings.defaultCalendar, settings.downloadIcs, tab)
+        const event_manager = new EventManager(settings.outlook_link, settings.gcal_link, settings.download_ics, tab)
         await event_manager.create_or_logout(info.selectionText);
     }
 })

@@ -17,9 +17,10 @@
 import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers.js";
 
 export class EventManager{
-    constructor(defaultCalendar, downloadIcs, tab) {
-      this.defaultCalendar = defaultCalendar
-      this.downloadIcs = downloadIcs
+    constructor(outlook_link, gcal_link, download_ics, tab) {
+      this.outlook_link = outlook_link
+      this.gcal_link = gcal_link
+      this.download_ics = download_ics
       this.event_text = null;
       this.uuid = null;
       this.tab = tab;
@@ -91,7 +92,6 @@ export class EventManager{
             });
         
         const data = await response.json();
-        const new_tab_url = data[this.defaultCalendar]
 
         if (this.downloadIcs) {
           const base_64_data = btoa(data.ics_data);
@@ -105,8 +105,11 @@ export class EventManager{
           })
         }
 
-        if (new_tab_url) {
-          await chrome.tabs.create({ url: new_tab_url })
+        if (this.gcal_link) {
+          await chrome.tabs.create({ url: data['gcal_link'] })
+        }
+        if (this.outlook_link) {
+          await chrome.tabs.create({ url: data['outlook_link'] })
         }
     }
 }
