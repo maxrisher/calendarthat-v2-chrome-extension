@@ -1,4 +1,4 @@
-export const CALENDARTHAT_BASE_URL = 'https://calendarthatv2-calendarthatv2-pr-18.up.railway.app';
+export const CALENDARTHAT_BASE_URL = 'https://calendarthat.com';
 
 const icons = {
     logged_in: {
