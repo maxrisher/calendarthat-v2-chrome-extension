@@ -1,5 +1,5 @@
 {
-    "name": "CalendarThat Extension",
+    "name": "CalendarThat",
     "version": "1.0",
     "manifest_version": 3,
     "description": "Right-click to send highlighted text to CalendarThat.",
