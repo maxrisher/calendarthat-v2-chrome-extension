@@ -79,7 +79,7 @@ export class EventManager{
                 return;
             }
 
-            await sleep(1000);
+            await sleep(500);
             attempts++;
         }
         throw new Error('Event creation timed out');
