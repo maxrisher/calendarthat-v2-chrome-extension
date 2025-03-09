@@ -1,10 +1,8 @@
 # CalendarThat Browser Extension
 
-This is the source code for the CalendarThat browser extension, which allows users to highlight text on any webpage and convert it into calendar events.
-
 ## Project Structure
 
-The extension is built to work on both Chrome and Firefox browsers with a shared codebase:
+The extension is built to work on both Chrome and Firefox with a shared codebase:
 
 - `src/` - Source code files
 - `src/manifest/` - Browser-specific manifest files
@@ -86,7 +84,9 @@ The extension:
 
 ## Notes for Firefox Reviewers
 
-- The extension makes API calls to `https://calendarthat.com` for authentication and event processing
+email: test.email@gmail.com 
+password: #$JMa2s4DWIZNqNbG4PW%74sb
+
+- The extension makes API calls to `https://calendarthat.com` for authentication and event processing. Visit this site and use this login to get a cookie to test the full functionality of the extension.
 - User authentication is managed through browser cookies with the CalendarThat website
-- No user data is stored locally except for user preferences
 - The extension requires host permissions only for the CalendarThat domain
