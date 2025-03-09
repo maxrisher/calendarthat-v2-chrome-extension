@@ -34,7 +34,7 @@
     },
     "browser_specific_settings": {
         "gecko": {
-            "id": "calendarthat-extension@calendarthat.com"
+            "id": "calendarthat.extension@calendarthat.com"
         }
     }
   }

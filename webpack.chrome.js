@@ -21,7 +21,10 @@ const chrome_config = {
                 {from: './src/icons', to: 'icons'},
             ]
         })
-    ]
+    ],
+    optimization: {
+        minimize: false
+    },
 }
 
 export default merge(commonConfig, chrome_config)

@@ -21,7 +21,10 @@ const firefox_config = {
                 {from: './src/icons', to: 'icons'},
             ]
         })
-    ]
+    ],
+    optimization: {
+        minimize: false
+    },
 }
 
 export default merge(commonConfig, firefox_config)
