@@ -7,9 +7,10 @@
 
 import { CALENDARTHAT_BASE_URL, set_auth } from "./helpers.js";
 import { EventManager } from "./event_manager.js";
+import browser from 'webextension-polyfill';
 
-chrome.runtime.onInstalled.addListener(async() => {
-    chrome.contextMenus.create({
+browser.runtime.onInstalled.addListener(async() => {
+    browser.contextMenus.create({
         id: 'createCalendarEvent',
         title: 'CalendarThat',
         contexts: ['selection']
@@ -22,16 +23,16 @@ chrome.runtime.onInstalled.addListener(async() => {
         download_ics: false
     };
 
-    await chrome.storage.local.set(defaults);
+    await browser.storage.local.set(defaults);
 
     await set_auth(); // Check if the user already happens to be authenticated
 })
 
-chrome.contextMenus.onClicked.addListener(async(info, tab) => {
+browser.contextMenus.onClicked.addListener(async(info, tab) => {
     if (info.menuItemId === 'createCalendarEvent') {
         if (!info.selectionText.trim()) return;
 
-        const settings = await chrome.storage.local.get([
+        const settings = await browser.storage.local.get([
             'authenticated',
             'outlook_link',
             'gcal_link',

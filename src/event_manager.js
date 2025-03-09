@@ -13,6 +13,7 @@
 // once the event is 'DONE', hit the download/ endpoint
 // open the calendar url in a new tab (depending on user settings)
 // download (depending on user settings) the .ics file
+import browser from 'webextension-polyfill';
 
 import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers.js";
 
@@ -52,9 +53,9 @@ export class EventManager{
       });
   
       if (response.status === 401) { // double check response status here
-        await chrome.storage.local.set({ authenticated: false });
+        await browser.storage.local.set({ authenticated: false });
         await set_icon_logged_in(false);
-        chrome.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
+        browser.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
 
         throw new Error('User not authenticated');
       }
@@ -78,7 +79,7 @@ export class EventManager{
                 return;
             }
 
-            await sleep(1000);
+            await sleep(500);
             attempts++;
         }
         throw new Error('Event creation timed out');
@@ -98,7 +99,7 @@ export class EventManager{
           const data_url = `data:text/calendar;base64,${base_64_data}`;
           const event_name = sanitize_filename(this.event_text.slice(0,15))
 
-          await chrome.downloads.download({
+          await browser.downloads.download({
             url: data_url,
             filename: `new-event-${event_name}.ics`,
             saveAs: false
@@ -106,10 +107,10 @@ export class EventManager{
         }
 
         if (this.gcal_link) {
-          await chrome.tabs.create({ url: data['gcal_link'] })
+          await browser.tabs.create({ url: data['gcal_link'] })
         }
         if (this.outlook_link) {
-          await chrome.tabs.create({ url: data['outlook_link'] })
+          await browser.tabs.create({ url: data['outlook_link'] })
         }
     }
 }
