@@ -2,10 +2,14 @@ import { merge } from 'webpack-merge';
 import path from 'path';
 import CopyPlugin from 'copy-webpack-plugin';
 import commonConfig from './webpack.common.js'
+import { fileURLToPath } from 'url';
 
-chrome_config = {
+const file_path = fileURLToPath(import.meta.url)
+const directory_name = path.dirname(file_path)
+
+const chrome_config = {
     output: {
-        path: path.resolve(__dirname, 'build/chrome'),
+        path: path.resolve(directory_name, 'build/chrome'),
         filename: '[name].js',
     },
     plugins: [
@@ -13,11 +17,11 @@ chrome_config = {
             patterns: [
                 {from: './src/manifest/chrome.json', to: 'manifest.json'},
                 {from: './src/popup.html', to: 'popup.html'},
-                {from: './src/styles/output.css', to: 'output.css'},
+                {from: './src/styles/output.css', to: './styles/output.css'},
                 {from: './src/icons', to: 'icons'},
             ]
         })
     ]
 }
 
-module.exports = merge(common, chrome_config)
+export default merge(commonConfig, chrome_config)

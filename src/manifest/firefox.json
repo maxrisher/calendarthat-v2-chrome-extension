@@ -23,7 +23,7 @@
       }
     },
     "background": {
-      "script": "background_listeners.js",
+      "scripts": ["background_listeners.js"],
       "type": "module"
     },
     "icons": {
