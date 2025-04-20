@@ -17,7 +17,7 @@ import browser from 'webextension-polyfill';
 
 import { CALENDARTHAT_BASE_URL, set_cursor_style, set_icon_logged_in, sleep, sanitize_filename } from "./helpers.js";
 
-export class EventManager{
+export class EventBuilderManager{
     constructor(outlook_link, gcal_link, download_ics, tab) {
       this.outlook_link = outlook_link
       this.gcal_link = gcal_link
@@ -41,7 +41,7 @@ export class EventManager{
     }
   
     async _create_event_and_uuid(){
-      const response = await fetch(`${CALENDARTHAT_BASE_URL}/extension_create/`, {
+      const response = await fetch(`${CALENDARTHAT_BASE_URL}/create_multiple/`, {
             method: "POST",
             // 'include' ensures the browser sends cookies (session) along with the request
             credentials: "include",
@@ -49,10 +49,9 @@ export class EventManager{
               "Content-Type": "application/x-www-form-urlencoded"
             },
             body: new URLSearchParams({ event_text: this.event_text }) 
-            // Check if this is the right way to talk to the API ^
       });
   
-      if (response.status === 401) { // double check response status here
+      if (response.status === 401) {
         await browser.storage.local.set({ authenticated: false });
         await set_icon_logged_in(false);
         browser.tabs.create({ url: `${CALENDARTHAT_BASE_URL}` });
@@ -61,21 +60,21 @@ export class EventManager{
       }
   
       const data = await response.json();
-      this.uuid = data.event_uuid;
+      this.uuid = data.event_builder_uuid;
     }
 
     async _poll_backend(){
-        const max_attempts = 30;
+        const max_attempts = 60;
         let attempts = 0;
 
         while (attempts < max_attempts) {
-            const response = await fetch(`${CALENDARTHAT_BASE_URL}/event_status/?event_uuid=${this.uuid}`, {
+            const response = await fetch(`${CALENDARTHAT_BASE_URL}/event_builder_status/?event_builder_uuid=${this.uuid}`, {
                 method: "GET",
                 credentials: "include",
                 });
             const data = await response.json();
 
-            if (data.build_status === 'DONE') {
+            if (data.event_builder_status === 'DONE') {
                 return;
             }
 
@@ -86,31 +85,33 @@ export class EventManager{
     }
 
     async _open_calendar_event() {
-        const response = await fetch(`${CALENDARTHAT_BASE_URL}/download/?event_uuid=${this.uuid}`, {
+        const response = await fetch(`${CALENDARTHAT_BASE_URL}/download_multiple_events/?event_builder_uuid=${this.uuid}`, {
             method: "POST",
             // 'include' ensures the browser sends cookies (session) along with the request
             credentials: "include",
             });
         
-        const data = await response.json();
+        const events_list = await response.json();
 
-        if (this.download_ics) {
-          const base_64_data = btoa(data.ics_data);
-          const data_url = `data:text/calendar;base64,${base_64_data}`;
-          const event_name = sanitize_filename(this.event_text.slice(0,15))
-
-          await browser.downloads.download({
-            url: data_url,
-            filename: `new-event-${event_name}.ics`,
-            saveAs: false
-          })
-        }
-
-        if (this.gcal_link) {
-          await browser.tabs.create({ url: data['gcal_link'] })
-        }
-        if (this.outlook_link) {
-          await browser.tabs.create({ url: data['outlook_link'] })
+        for (const event of events_list){
+          if (this.download_ics) {
+            const base_64_data = btoa(event.ics_data);
+            const data_url = `data:text/calendar;base64,${base_64_data}`;
+            const event_name = sanitize_filename(event.summary.slice(0,15))
+  
+            await browser.downloads.download({
+              url: data_url,
+              filename: `new-event-${event_name}.ics`,
+              saveAs: false
+            })
+          }
+  
+          if (this.gcal_link) {
+            await browser.tabs.create({ url: event.gcal_link })
+          }
+          if (this.outlook_link) {
+            await browser.tabs.create({ url: event.outlook_link })
+          }
         }
     }
 }
