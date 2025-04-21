@@ -6,7 +6,7 @@
 // create_calendar_event()
 
 import { CALENDARTHAT_BASE_URL, set_auth } from "./helpers.js";
-import { EventManager } from "./event_manager.js";
+import { EventBuilderManager } from "./event_manager.js";
 import browser from 'webextension-polyfill';
 
 browser.runtime.onInstalled.addListener(async() => {
@@ -38,7 +38,7 @@ browser.contextMenus.onClicked.addListener(async(info, tab) => {
             'gcal_link',
             'download_ics'])
 
-        const event_manager = new EventManager(settings.outlook_link, settings.gcal_link, settings.download_ics, tab)
+        const event_manager = new EventBuilderManager(settings.outlook_link, settings.gcal_link, settings.download_ics, tab)
         await event_manager.create_or_logout(info.selectionText);
     }
 })
